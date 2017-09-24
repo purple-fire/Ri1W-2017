@@ -32,7 +32,7 @@ task runClaw()
 {
 	clawMode = 1;
 	clawTarget = SensorValue[CLAWPOT];
-	float proportionalCoefficient = -0.05;
+	float proportionalCoefficient = -0.035;
 	float error,
 	motorPower,
 	proportional; //what you set the motors to
@@ -44,7 +44,7 @@ task runClaw()
 			motorPower = proportional;
 		}
 		else{
-			motorPower = proportional+20;
+			motorPower = proportional+30;
 		}
 		motor[CLAW] = motorPower;
 		// Motor values can only be updated every 20ms
@@ -53,7 +53,7 @@ task runClaw()
 }
 
 //Task to Manage Claw Lift Position
-task clawLift()
+task runLift()
 {
 	armTarget = downPOS+20;
 	armMode = 1;
@@ -110,7 +110,7 @@ task hDrive() {
 
 task main(){
 	startTask(hDrive);
-	startTask(clawLift);
+	startTask(runLift);
 	startTask(runClaw);
 	while(true) {
 		//Move Arm
