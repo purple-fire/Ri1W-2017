@@ -34,12 +34,12 @@ task flyLift()
 			motor[Fly1L] =  0;
 		}
 		//Glyph Lift
-		if((vexRT[Btn7U] == 1))
+		if((vexRT[Btn6U] == 1))
 		{
 			motor[LiftR]= 70;
 			motor[LiftL] =  -70;
 		}
-		else if((vexRT[Btn7D] == 1))
+		else if((vexRT[Btn6D] == 1))
 		{
 			motor[LiftR]= -70;
 			motor[LiftL] =  70;

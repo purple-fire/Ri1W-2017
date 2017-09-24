@@ -16,11 +16,11 @@ task liftControl()
 		//Run Claw
 		if((vexRT[Btn6U] == 1))
 		{
-			motor[LIFT]= 70;
+			motor[LIFT]= -70;
 		}
 		else if((vexRT[Btn6D] == 1))
 		{
-			motor[LIFT]= -70;
+			motor[LIFT]= 70;
 		}
 		else{
 			motor[LIFT] = 0;
@@ -33,9 +33,9 @@ task liftControl()
 task tDrive() {
 	while(true) {
 		motor[FrontL]  = C1LY;
-		motor[FrontR] = C1LY;
+		motor[FrontR] = -C1RY;
 		motor[BackL]  = C1LY;
-		motor[BackR] = C1LY;
+		motor[BackR] = -C1RY;
 		// Motor values can only be updated every 20ms
 		wait10Msec(2);
 	}
