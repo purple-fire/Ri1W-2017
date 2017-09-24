@@ -108,8 +108,28 @@ task hDrive() {
 	}
 }
 
+task arcadeDrive() {
+	while(true) {
+		motor[FrontL]  = C1RX + C1LY;
+		motor[FrontR] = C1RX - C1LY;
+		motor[BackL]  = C1RX + C1LY;
+		motor[BackR] = C1RX - C1LY;
+		if(vexRT[Btn7L]){
+			motor[HMotor] =  -80;
+		}
+		else if(vexRT[Btn7R]){
+			motor[HMotor] =  80;
+		}
+		else{
+			motor[HMotor] = 0;
+		}
+		// Motor values can only be updated every 20ms
+		wait10Msec(2);
+	}
+}
+
 task main(){
-	startTask(hDrive);
+	startTask(arcadeDrive);
 	startTask(runLift);
 	startTask(runClaw);
 	while(true) {

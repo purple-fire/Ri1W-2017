@@ -16,8 +16,8 @@
 #define C1RX							              vexRT[Ch1]
 #define C1LX								            vexRT[Ch4]
 
-#define downPOS 1063
-#define upPOS 2025
+#define downPOS 1447
+#define upPOS 2770
 
 int armMode = 0;
 float armTarget;
@@ -28,11 +28,11 @@ task runFlywheel()
 	while (true)
 	{
 		//Lower Intake
-		if(vexRT[Btn5U] == 1)
+		if(vexRT[Btn6U] == 1)
 		{
 			motor[FLY]= 70;
 		}
-		else if(vexRT[Btn5D] == 1)
+		else if(vexRT[Btn6D] == 1)
 		{
 			motor[FLY]= -70;
 		}
@@ -41,11 +41,11 @@ task runFlywheel()
 		}
 
 		//Glyph Lift
-		if((vexRT[Btn6U] == 1))
+		if((vexRT[Btn8U] == 1))
 		{
 			motor[LIFT]= 100;
 		}
-		else if((vexRT[Btn6D] == 1))
+		else if((vexRT[Btn8D] == 1))
 		{
 			motor[LIFT]= -100;
 		}
@@ -101,7 +101,6 @@ task runLift()
 	}
 }
 
-
 task hDrive() {
 	while(true) {
 		motor[FrontL]  = C1LX + C1LY;
@@ -114,9 +113,29 @@ task hDrive() {
 	}
 }
 
+task arcadeDrive() {
+	while(true) {
+		motor[FrontL]  = C1RX + C1LY;
+		motor[FrontR] = C1RX - C1LY;
+		motor[BackL]  = C1RX + C1LY;
+		motor[BackR] = C1RX - C1LY;
+		if(vexRT[Btn7L]){
+			motor[HMotor] =  -80;
+		}
+		else if(vexRT[Btn7R]){
+			motor[HMotor] =  80;
+		}
+		else{
+			motor[HMotor] = 0;
+		}
+		// Motor values can only be updated every 20ms
+		wait10Msec(2);
+	}
+}
+
 task main(){
-	startTask(hDrive);
-	//startTask(runLift);
+	startTask(arcadeDrive);
+	startTask(runLift);
 	startTask(runFlywheel);
 	while(true) {
 		//Move Arm
