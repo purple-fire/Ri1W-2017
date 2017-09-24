@@ -14,6 +14,12 @@
 #define C1RX							              vexRT[Ch1]
 #define C1LX								            vexRT[Ch4]
 
+#define downPOS 4095
+#define upPOS 3407
+
+int armMode = 0;
+float armTarget;
+
 task runClaw()
 {
 	while(1){
@@ -34,50 +40,49 @@ task runClaw()
 	}
 }
 
-//Task to Manage Claw Position
-/*
+//Task to Manage Claw Lift Position
 task clawLift()
 {
-armTarget = downPOS;
-float proportionalCoefficient = 0.2;
-float error,
-motorPower,
-proportional; //what you set the motors to
-while (true)
-{
-//ENABLE PID
-if(armMode==1){
-error = armTarget - SensorValue[POT];
-proportional = error * proportionalCoefficient;
-motorPower = proportional;
-motor[RARM] = motorPower;
-motor[LARM] = motorPower;
+	armTarget = downPOS;
+	float proportionalCoefficient = 0.2;
+	float error,
+	motorPower,
+	proportional; //what you set the motors to
+	while (true)
+	{
+		//ENABLE PID
+		if(armMode==1){
+			error = armTarget - SensorValue[POT];
+			proportional = error * proportionalCoefficient;
+			motorPower = proportional;
+			motor[RARM] = motorPower;
+			motor[LARM] = motorPower;
+		}
+		//DISABLE PID
+		else if(armMode==0){
+			//Arm UP
+			if(vexRT[Btn5U] == 1)
+			{
+				motor[RARM] = -127;
+				motor[LARM] = -127;
+			}
+			//Arm Down
+			else if(vexRT[Btn5D] == 1)
+			{
+				motor[RARM] =110;
+				motor[LARM] = 110;
+			}
+			//Arm Stop
+			else{
+				armTarget = SensorValue[POT];
+				armMode = 1;
+			}
+			// Motor values can only be updated every 20ms
+			wait1Msec(20);
+		}
+	}
 }
-//DISABLE PID
-else if(armMode==0){
-//Arm UP
-if(vexRT[Btn5U] == 1)
-{
-motor[RARM] = -127;
-motor[LARM] = -127;
-}
-//Arm Down
-else if(vexRT[Btn5D] == 1)
-{
-motor[RARM] =110;
-motor[LARM] = 110;
-}
-//Arm Stop
-else{
-armTarget = SensorValue[POT];
-armMode = 1;
-}
-// Motor values can only be updated every 20ms
-wait1Msec(20);
-}
-}
-}
-*/
+
 
 task hDrive() {
 	while(true) {
@@ -93,9 +98,18 @@ task hDrive() {
 
 task main(){
 	startTask(hDrive);
-	//startTask(clawLift);
+	startTask(clawLift);
 	startTask(runClaw);
 	while(true) {
+				//Move Arm
+		if(vexRT[Btn5U] == 1)
+		{
+			armMode = 0;
+		}
+		else if(vexRT[Btn5D] == 1)
+		{
+			armMode = 0;
+		}
 		// Motor values can only be updated every 20ms
 		wait10Msec(2);
 	}
