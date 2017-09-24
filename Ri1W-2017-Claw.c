@@ -14,8 +14,8 @@
 #define C1RX							              vexRT[Ch1]
 #define C1LX								            vexRT[Ch4]
 
-#define downPOS 4095
-#define upPOS 3407
+#define downPOS 3132
+#define upPOS 1440
 
 int armMode = 0;
 float armTarget;
@@ -43,7 +43,7 @@ task runClaw()
 //Task to Manage Claw Lift Position
 task clawLift()
 {
-	armTarget = downPOS;
+	armTarget = SensorValue[POT];
 	float proportionalCoefficient = 0.2;
 	float error,
 	motorPower,
