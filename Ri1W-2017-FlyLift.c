@@ -36,13 +36,13 @@ task flyLift()
 		//Glyph Lift
 		if((vexRT[Btn6U] == 1))
 		{
-			motor[LiftR]= 70;
-			motor[LiftL] =  -70;
+			motor[LiftR]= 100;
+			motor[LiftL] =  -100;
 		}
 		else if((vexRT[Btn6D] == 1))
 		{
-			motor[LiftR]= -70;
-			motor[LiftL] =  70;
+			motor[LiftR]= -100;
+			motor[LiftL] =  100;
 		}
 		else{
 			motor[LiftR]= 0;
@@ -67,7 +67,7 @@ task hDrive() {
 }
 
 task main(){
-	startTask(hDrive);
+	//startTask(hDrive);
 	startTask(flyLift);
 	while(true) {
 		// Motor values can only be updated every 20ms
